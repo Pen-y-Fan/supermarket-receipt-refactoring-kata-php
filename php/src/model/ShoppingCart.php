@@ -9,12 +9,12 @@ use SplObjectStorage;
 class ShoppingCart
 {
     /**
-     * @var array ProductQuantity[]
+     * @var array
      */
     private $items = [];
 
     /**
-     * @var SplObjectStorage  Map<Product, Double>
+     * @var SplObjectStorage
      */
     private $productQuantities;
 
@@ -25,18 +25,16 @@ class ShoppingCart
 
     public function getItems(): array
     {
-        /** ProductQuantity[] */
         return $this->items;
     }
 
     public function addItem(Product $product): void
     {
-        $this->items[] = $product;
+        $this->addItemQuantity($product, 1.0);
     }
 
     public function productQuantities(): SplObjectStorage
     {
-        /** Map<Product, Double> */
         return $this->productQuantities;
     }
 
@@ -80,23 +78,23 @@ class ShoppingCart
                     $x = 5;
                 }
                 /** @var int $numberOfXs */
-                $numberOfXs = $quantityAsInt / $x;
+                $numberOfXs = floor($quantityAsInt / $x);
                 if ($offer->offerType === SpecialOfferType::THREE_FOR_TWO && $quantityAsInt > 2) {
                     /** @var double $discountAmount */
                     $discountAmount = $quantity * $unitPrice
-                        - (($numberOfXs * 2 * $unitPrice) + $quantityAsInt % 3 * $unitPrice);
+                        - (($numberOfXs * 2 * $unitPrice) + ($quantityAsInt % 3) * $unitPrice);
                     $discount = new Discount($product, '3 for 2', -$discountAmount);
                 }
                 if ($offer->offerType === SpecialOfferType::TEN_PERCENT_DISCOUNT) {
                     $discount = new Discount(
                         $product,
-                        $offer->argument . '% off',
+                        sprintf('%.1f', $offer->argument) . '% off',
                         -$quantity * $unitPrice * $offer->argument / 100.0
                     );
                 }
                 if ($offer->offerType === SpecialOfferType::FIVE_FOR_AMOUNT && $quantityAsInt >= 5) {
                     $discountTotal = $unitPrice * $quantity
-                        - ($offer->argument * $numberOfXs + $quantityAsInt % 5 * $unitPrice);
+                        - ($offer->argument * $numberOfXs + ($quantityAsInt % 5) * $unitPrice);
                     $discount = new Discount($product, $x . ' for ' . $offer->argument, -$discountTotal);
                 }
                 if ($discount !== null) {
