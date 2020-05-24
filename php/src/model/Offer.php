@@ -7,29 +7,18 @@ namespace Supermarket\model;
 class Offer
 {
     /**
-     * @var string
+     * @var SpecialOffer
      */
     public $offerType;
-
-    /**
-     * @var Product
-     */
-    public $product;
 
     /**
      * @var float
      */
     public $argument;
 
-    public function __construct(string $offerType, Product $product, float $argument)
+    public function __construct(SpecialOffer $offerType, float $argument)
     {
         $this->offerType = $offerType;
         $this->argument = $argument;
-        $this->product = $product;
-    }
-
-    public function getProduct(): Product
-    {
-        return $this->product;
     }
 }

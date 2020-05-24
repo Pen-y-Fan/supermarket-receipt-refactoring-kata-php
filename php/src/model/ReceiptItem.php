@@ -19,19 +19,13 @@ class ReceiptItem
     /**
      * @var float
      */
-    private $totalPrice;
-
-    /**
-     * @var float
-     */
     private $quantity;
 
-    public function __construct(Product $product, float $quantity, float $price, float $totalPrice)
+    public function __construct(Product $product, float $quantity, float $price)
     {
         $this->product = $product;
         $this->quantity = $quantity;
         $this->price = $price;
-        $this->totalPrice = $totalPrice;
     }
 
     public function getPrice(): float
@@ -51,6 +45,6 @@ class ReceiptItem
 
     public function getTotalPrice(): float
     {
-        return $this->totalPrice;
+        return $this->quantity * $this->price;
     }
 }

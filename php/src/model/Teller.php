@@ -24,26 +24,30 @@ class Teller
         $this->offers = new SplObjectStorage();
     }
 
-    public function addSpecialOffer(string $offerType, Product $product, float $argument): void
+    public function addSpecialOffer(SpecialOffer $offerType, Product $product, float $argument): void
     {
-        $this->offers[$product] = new Offer($offerType, $product, $argument);
+        $this->offers[$product] = new Offer($offerType, $argument);
     }
 
     public function checksOutArticlesFrom(ShoppingCart $theCart): Receipt
     {
         $receipt = new Receipt();
-        $productQuantities = $theCart->getItems();
+        $this->addItems($theCart, $receipt);
 
-        /** @var ProductQuantity $productQuantity */
-        foreach ($productQuantities as $productQuantity) {
-            $product = $productQuantity->getProduct();
-            $quantity = $productQuantity->getQuantity();
-            $unitPrice = $this->catalog->getUnitPrice($product);
-            $price = $quantity * $unitPrice;
-            $receipt->addProduct($product, $quantity, $unitPrice, $price);
-        }
         $theCart->handleOffers($receipt, $this->offers, $this->catalog);
 
         return $receipt;
+    }
+
+    private function addItems(ShoppingCart $theCart, Receipt $receipt): void
+    {
+        /** @var ProductQuantity $productQuantity */
+        foreach ($theCart->getItems() as $productQuantity) {
+            $receipt->addProduct(
+                $productQuantity->getProduct(),
+                $productQuantity->getQuantity(),
+                $this->catalog->getUnitPrice($productQuantity->getProduct())
+            );
+        }
     }
 }

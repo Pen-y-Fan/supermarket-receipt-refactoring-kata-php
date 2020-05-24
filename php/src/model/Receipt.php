@@ -18,22 +18,17 @@ class Receipt
 
     public function getTotalPrice(): float
     {
-        $total = 0.0;
-
-        /** @var ReceiptItem $item */
-        foreach ($this->items as $item) {
-            $total += $item->getTotalPrice();
-        }
-        /** @var Discount $discount */
-        foreach ($this->discounts as $discount) {
-            $total += $discount->getDiscountAmount();
-        }
-        return $total;
+        return array_sum(array_map(function ($item) {
+            return $item->getTotalPrice();
+        }, $this->items))
+        + array_sum(array_map(function ($discount) {
+            return $discount->getDiscountAmount();
+        }, $this->discounts));
     }
 
-    public function addProduct(Product $product, float $quantity, float $price, float $totalPrice): void
+    public function addProduct(Product $product, float $quantity, float $price): void
     {
-        $this->items[] = new ReceiptItem($product, $quantity, $price, $totalPrice);
+        $this->items[] = new ReceiptItem($product, $quantity, $price);
     }
 
     public function getItems(): array
