@@ -1,9 +1,6 @@
-# Theatrical Players Refactoring Kata - PHP version
+# The Supermarket Receipt Refactoring Kata - PHP version
 
-See the [top level readme](../../Theatrical-Players-Refactoring-Kata/README.md) for general information
- about this exercise. Download the PDF of the first chapter of
-  ['Refactoring' by Martin Fowler, 2nd Edition](https://www.thoughtworks.com/books/refactoring2) which contains a worked
-   example of this exercise, in javascript.
+See the [top level readme](../README.md) for general information about this exercise.
 
 ## Installation
 
@@ -19,19 +16,19 @@ Recommended:
 Clone the repository
 
 ```sh
-git clone git@github.com:emilybache/Theatrical-Players-Refactoring-Kata.git
+git clone git@github.com:emilybache/SupermarketReceipt-Refactoring-Kata.git
 ```
 
 or
 
 ```shell script
-git clone https://github.com/emilybache/Theatrical-Players-Refactoring-Kata.git
+git clone https://github.com/emilybache/SupermarketReceipt-Refactoring-Kata.git
 ```
 
 Install all the dependencies using composer:
 
 ```sh
-cd ./Theatrical-Players-Refactoring-Kata/php
+cd ./SupermarketReceipt-Refactoring-Kata/php
 composer install
 ```
 
@@ -47,10 +44,10 @@ The project uses composer to install:
 
 ## Folders
 
-- `src` - Contains the **StatementPrinter** Class along with the setup classes. Only **StatementPrinter.php** is
-    refactored. 
-- `tests` - Contains the corresponding tests. There should be no need to amend the test.
-  - `approvals` - Contains the text output for the tests. There should be no need to amend.
+- `src` - Contains the **ReceiptPrinter** Class which needs to be tested and refactored.
+    - `models` - Contains the 11 Classes and Interface which need to be tested and refactored.
+- `tests` - Contains the starting **SupermarketTest** which needs more test adding. **FakeCatalog** Class is a basic
+ implementation of the **SupermarketCatalog** interface, which allows the tests to run.
 
 ## Testing
 
@@ -83,8 +80,8 @@ The [XDEbug](https://xdebug.org/download) extension is required for coverage rep
 ## Code Standard
 
 Easy Coding Standard (ECS) is used to check for style and code standards,
- **[PSR-12](https://www.php-fig.org/psr/psr-12/)** is used. As the code is constantly being refactored only run code
-  standard checks once the chapter is complete.
+ **[PSR-12](https://www.php-fig.org/psr/psr-12/)** is used. Tip: Only periodically run ECS, when tests are green, to
+ keep the focus on writing tests, refactoring the code and adding new features.
 
 ### Check Code
 
@@ -119,7 +116,8 @@ fc
 ## Static Analysis
 
 PHPStan is used to run static analysis checks. As the code is constantly being refactored only run static analysis
-  checks once the chapter is complete.
+  checks once the chapter is complete. Tip: Only periodically run PHPStan, when tests are green, to keep the focus on
+   writing tests, refactoring the code and adding new features.
 
 ```shell script
 composer phpstan
@@ -131,5 +129,16 @@ On Windows a batch file has been created, similar to an alias on Linux/Mac (e.g.
 ```shell script
 ps
 ```
+
+## Approval Tests
+
+ApprovalTests.php can be used to compare the output of the **ReceiptPrinter**, see
+ [ApprovalTests.PHP](https://github.com/approvals/ApprovalTests.php) for more information, or see the `with_tests`
+  branch for working examples.
+
+## Start with the refactoring
+
+If you would like to just do the refactoring part of this exercise, you can instead check out the `with_tests` branch. 
+Those tests have reasonably good coverage and should support most kinds of refactorings you'd like to do.
 
 **Happy coding**!
